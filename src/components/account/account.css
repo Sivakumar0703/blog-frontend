@@ -1,0 +1,82 @@
+
+
+/* text field label */
+.css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root{
+    color:#f3d3b5 !important;
+}
+
+.css-1eed5fa-MuiInputBase-root-MuiInput-root::before {
+    border-bottom: 2px solid #f3d3b5 !important;
+}
+
+.css-1eed5fa-MuiInputBase-root-MuiInput-root::after {
+    border-bottom: 2px solid #116466 !important;
+}
+/* form field label */
+.css-1c2i806-MuiFormLabel-root-MuiInputLabel-root{
+    color: #f3d3b5 !important;
+}
+
+.css-1c2i806-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+    color: #116466 !important;
+}
+
+/* input field text color  */
+.css-1x51dt5-MuiInputBase-input-MuiInput-input{
+    color:#FFCB9A !important;
+}
+
+.css-1x51dt5-MuiInputBase-input-MuiInput-input:focus{
+    color: #116466 !important;
+}
+
+
+/* login-button */
+.css-1peujg-MuiButtonBase-root-MuiButton-root{
+    background-color: #116466 !important;
+    color: #2C3531 !important;
+    margin-top: 25px !important;
+}
+
+/* create-account-button */
+.css-vlxpca-MuiButtonBase-root-MuiButton-root , .css-1pblrhx-MuiButtonBase-root-MuiButton-root {
+    background-color: #FFCB9A !important;
+    color: #2C3531 !important;
+    margin-top: 25px !important;
+}
+
+.error-msg{
+    margin-bottom: 0 !important;
+    color:red;
+}
+
+.hidden-msg{
+    visibility: hidden;
+}
+
+.wrapper{
+    padding: 25px 35px;
+    display: flex;
+    flex: 1;
+    overflow: auto;
+    flex-direction: column;
+}
+
+.css-1pblrhx-MuiButtonBase-root-MuiButton-root{
+    margin-top: 25px !important;
+}
+
+.signup-btn{
+    text-transform: none;
+    color: black !important;
+    background: #FFCB9A !important;
+    height: 48px;
+    border-radius: 2px;
+    margin-bottom: 20px !important;
+    margin-top: 20px !important;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
+}
+
+.password-field{
+    margin: 25px 0 !important;
+}
