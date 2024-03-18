@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Banner from '../banner/Banner'
 import Categories from '../category/Categories'
-import { Grid } from '@mui/material'
+import { Grid } from '@mui/material';
+import Navbar from '../navbar/Navbar';
+import { userContext } from '../context/MyContext';
+import DisplayPosts from '../displayPosts/DisplayPosts';
 
 const Home = () => {
+  const {userData} = useContext(userContext);
+  console.log(userData)
   return (
     <div>
+      <Navbar/>
         <Banner />
 
         <Grid container>
@@ -14,7 +20,7 @@ const Home = () => {
             </Grid>
 
             <Grid container item xs={12} sm={10} lg={10} style={{backgroundColor:"#2C3531"}}>
-            Home
+            <DisplayPosts />
             </Grid>
         </Grid>
         

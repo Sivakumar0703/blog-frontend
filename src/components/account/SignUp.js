@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-const SignUp = ({setUserAuth}) => {
+const SignUp = () => {
 
     const imageURL = "https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png";
     const [account, toggleAccount] = useState("login");
@@ -63,11 +63,11 @@ async function login(loginData){
     const result = await axios.post(`${url}/user/login` , loginData);
     console.log(result)
     toast(result.data.message);
-    sessionStorage.setItem("accessToken",`Bearer ${result.data.token.accessToken}`);
-    sessionStorage.setItem("refreshToken",`Bearer ${result.data.token.refreshToken}`);
-    localStorage.setItem("user",JSON.stringify(result.data.token))
-    setUserData({name:result.data.token.name , email:result.data.token.email});
-    setUserAuth(true);
+    // sessionStorage.setItem("accessToken",`Bearer ${result.data.token.accessToken}`);
+    // sessionStorage.setItem("refreshToken",`Bearer ${result.data.token.refreshToken}`);
+     sessionStorage.setItem("user",JSON.stringify(result.data.user));
+    // localStorage.setItem("user",JSON.stringify(result.data.token))
+    setUserData({name:result.data.user.name , email:result.data.user.email});
     navigate('/home');
    } catch (error) {
     toast.error(error.response?.data?.message ? error.response.data.message : "Server Busy");

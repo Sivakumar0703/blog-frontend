@@ -4,7 +4,7 @@ export const userContext = createContext(null);
 
 const MyContext = ({children}) => {
     const initialValue = {name:"",email:""}
-    const[userData , setUserData] = useState(initialValue);
+    const [userData , setUserData] = useState(initialValue);
   return (
     <userContext.Provider value={{
         userData,

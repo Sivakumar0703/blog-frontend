@@ -34,8 +34,10 @@ const Categories = () => {
 
             <TableHead>
                 <TableRow>
-                    <TableCell>
-                        All Categories
+                    <TableCell style={{cursor:"pointer"}}>
+                        <Link to="/home/?category=all" style={{textDecoration:"none",color:"inherit"}}>
+                        <span>All Categories</span>
+                        </Link>
                     </TableCell>
                 </TableRow>
             </TableHead>
@@ -45,7 +47,9 @@ const Categories = () => {
                     categories.map((category) => (
                         <TableRow key={category.id}>
                             <TableCell>
-                                {category.category}
+                               <Link to={`/home/?category=${category.category}`} style={{textDecoration:"none",color:"inherit"}}>
+                               {category.category}
+                               </Link>
                             </TableCell>
                         </TableRow>
                     ))
