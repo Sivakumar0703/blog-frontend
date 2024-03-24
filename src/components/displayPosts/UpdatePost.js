@@ -1,25 +1,21 @@
 
-import React , {useContext, useEffect, useState} from 'react';
-import styled from '@emotion/styled';
-import { Box, Button, FormControl, Icon, InputBase, InputLabel, MenuItem, Select } from '@mui/material';
+import React , { useEffect, useState} from 'react';
+import { Button, FormControl, Icon, InputLabel, MenuItem, Select } from '@mui/material';
 import image from "../../assets/create-blog-default.jpeg";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import "../writeBlog/writeBlog.css";
 import Navbar from '../navbar/Navbar';
-import { userContext } from '../context/MyContext';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import QuillEditor from '../writeBlog/Quill';
+import {toast} from "react-toastify"
 
 const UpdatePost = () => {
 
     const {id} = useParams();
-    // const[blog , setBlog] = useState();
     const[isUpdating , setIsUpdating] = useState(false);
     const[previousImage , setPreviousImage] = useState("");
     const navigate = useNavigate();
-    
-
-  const userData = JSON.parse(sessionStorage.getItem("user"));  
     const postBlog = {
         author:"",
         title:"",
@@ -30,50 +26,28 @@ const UpdatePost = () => {
         updatedAt: new Date(),
         email:""
     };
-
     const [post , setPost] = useState(postBlog);
     const [file , setFile] = useState();
-    // const [selectedCategory , setSelectedCategory] = useState("All Category");
-    const [desc , setDesc] = useState("");
-    
+    const [desc , setDesc] = useState("");   
     const categories = ["All Category","Fashion","Food","Movies","Music","Tech"];
     const [loading , setLoading] = useState(false);
     const [previousImageUrl , setPreviousImageUrl] = useState("");
 
-
- 
-   
-
-    
-
     function handleChange(e){
-        setPost((prevPost) => ({...prevPost , [e.target.name]:e.target.value}))
-
-    }
-
-    function getSelectedCategory(e){
-        // setSelectedCategory(e.target.value);
-        post.category = e.target.value;
-        console.log(e.target.value)
-    }
-
-    function setDescription(e){
-      setDesc(e.target.value);
-      // post.desc = e.target.value;
+      setPost((prevPost) => ({...prevPost , [e.target.name]:e.target.value}))
     }
 
     async function getMyPost(){
         try {
          setIsUpdating(true);
          const post = await axios.get(`http://localhost:5000/api/post/getPostById/${id}`);
-         console.log(post.data.blog);
          setPost(post.data.blog[0]);
          setPreviousImage(post.data.blog[0].image.split("blog-images/")[1]);
          setPreviousImageUrl(post.data.blog[0].image);
          setIsUpdating(false);
         } catch (error) {
-           console.log(error.response.data.message);
-           setIsUpdating(false);
+          toast(error.response.data.message);
+          setIsUpdating(false);
         }
      }
 
@@ -86,19 +60,16 @@ const UpdatePost = () => {
         const getImage = async() => {
             if(file){
               setLoading(true);
-                const data = new FormData();
-                data.append("name",file.name);
-                data.append("file",file);
-
+              const data = new FormData();
+              data.append("name",file.name);
+              data.append("file",file);
               const getPic =  await axios.post('http://localhost:5000/api/upload/file',data);
-              console.log(getPic.data)
               setLoading(false);
-               post.image = getPic.data.url;
+              post.image = getPic.data.url;
             }
         }
-        getImage(); // to get url 
-        
-        
+        getImage(); // to get image url 
+            
     },[file])
 
 
@@ -106,19 +77,18 @@ const UpdatePost = () => {
 async function updateTheBlog(){
   
   try {
+    post.description = desc;
     if(previousImageUrl !== post.image){
-      console.log('image changed');
       post.imageHasChanged = true;
     }
       if(post.title && post.description && post.image && post.email && post.author && previousImage){
         await axios.put(`http://localhost:5000/api/post/update-post/${id}/${previousImage}` , post );
         navigate(`/view_post/${id}`);
-        console.log(post , previousImage)
       } else {
         alert("Please fill all the field")
       } 
   } catch (error) {
-    console.log("post error",error)
+    toast(error.response.data.message);
   }
 }
     
@@ -150,13 +120,12 @@ async function updateTheBlog(){
     />
 
     <FormControl className='select-category'>
-      <InputLabel id="category-label">All Category</InputLabel>
+      <InputLabel id="category-label">{post.category}</InputLabel>
       <Select
         labelId="category-label"
         id="category-select"
         value={post.category}
         label="Select Category"
-        // onChange={getSelectedCategory}
         onChange={handleChange}
         name="category"
       >
@@ -171,17 +140,10 @@ async function updateTheBlog(){
     <Button variant="contained" onClick={updateTheBlog} className='publish-btn'> UPDATE </Button>
 </form>
 
-<textarea 
-className='description'
-rows={5} 
-placeholder='Write Your Content Here'
-name='description'
- value={post.description}
- onChange={handleChange}
-//  onChange={setDescription}
- /> 
-            </>
-        }
+ <QuillEditor setDesc={setDesc} previousContent={post.description} />
+
+     </>
+    }
 
     </div>
   )

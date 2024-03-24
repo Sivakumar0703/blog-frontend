@@ -1,32 +1,26 @@
 
 import './App.css';
-import {Routes,Route, Navigate, Outlet} from 'react-router-dom'
+import {Routes,Route} from 'react-router-dom'
 import SignUp from './components/account/SignUp';
 import Home from './components/home/Home';
-// import Navbar from './components/navbar/Navbar';
-// import { useEffect, useState } from 'react';
 import WriteBlog from './components/writeBlog/WriteBlog';
 import ViewPost from './components/displayPosts/ViewPost';
 import UpdatePost from './components/displayPosts/UpdatePost';
+import Contact from './components/contact/Contact';
+import MyPage from './components/myPage/MyPage';
 
 function App() {
-  // const [isUserAuth , setUserAuth] = useState(false);
-  // useEffect(()=>{
-  //     if(sessionStorage.getItem("user") !== null){
-  //       setUserAuth(true);
-  //     }
-  // },[])
   return (
     <div>
-      {/* {isUserAuth ? <Navbar /> : ""} */}
-    <div className="App" style={{marginTop:"60px",backgroundColor:"030637"}}>
+    <div className="App">
       <Routes>
         <Route path="/" element={<SignUp />} />
-        {/* <Route path="/" element={<SignUp setUserAuth={setUserAuth} />} /> */}
         <Route path="/home" element={<Home/>} />
         <Route path="/write_blog" element={<WriteBlog/>} />
         <Route path="/view_post/:id" element={<ViewPost />} />
         <Route path="/update_post/:id" element={<UpdatePost />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<MyPage />} />
       </Routes>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { Button, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/m
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-const Categories = () => {
+const Categories = ({page}) => {
 
     const categories = [
         {id:1 , category:"Movies"},
@@ -35,7 +35,7 @@ const Categories = () => {
             <TableHead>
                 <TableRow>
                     <TableCell style={{cursor:"pointer"}}>
-                        <Link to="/home/?category=all" style={{textDecoration:"none",color:"inherit"}}>
+                        <Link to={`/${page}/?category=all`} style={{textDecoration:"none",color:"inherit"}}>
                         <span>All Categories</span>
                         </Link>
                     </TableCell>
@@ -47,7 +47,7 @@ const Categories = () => {
                     categories.map((category) => (
                         <TableRow key={category.id}>
                             <TableCell>
-                               <Link to={`/home/?category=${category.category}`} style={{textDecoration:"none",color:"inherit"}}>
+                               <Link to={`/${page}/?category=${category.category}`} style={{textDecoration:"none",color:"inherit"}}>
                                {category.category}
                                </Link>
                             </TableCell>

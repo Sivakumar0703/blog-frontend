@@ -13,13 +13,12 @@ const DisplayPosts = () => {
 
     async function getPost(){
       let arrayOfPost;
-      if(category !== "all"){
+      if(category && category !== "all"){
         arrayOfPost = await axios.get(`http://localhost:5000/api/post`);
         const filtered = arrayOfPost.data?.post.filter((post)=> post.category === category);
        return setPost(filtered);
       }
         arrayOfPost = await axios.get(`http://localhost:5000/api/post`);
-        console.log(arrayOfPost.data.post);
         setPost(arrayOfPost.data.post);
     }
 
@@ -30,22 +29,16 @@ const DisplayPosts = () => {
     },[category])
 
   return (
-    // <div className='display-container'>
-    <div className='display-container'>
+      <div className='display-container'>
         
        {
         post.length ? 
-            post.map((singlePost)=>{
-                
-              // return  <Link to={`/view_post/${singlePost._id}/${singlePost.title}`} style={{textDecoration:"none",color:"inherit"}}> 
-              return <MyCard post={singlePost} key={singlePost._id} /> 
-              //  </Link> 
-             
-            })
+          post.map((singlePost)=>{
+            return <MyCard post={singlePost} key={singlePost._id} /> 
+          })
         
-        : <div> No Post Available </div>
+        : <div style={{marginTop:"15px",display:"flex",justifyContent:"center",alignItems:"center",width:"100%"}}> <span style={{color:"white"}}>No Post Available</span> </div>
        }
-       
     </div>
   )
 }

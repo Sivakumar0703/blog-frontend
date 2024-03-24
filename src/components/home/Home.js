@@ -3,20 +3,18 @@ import Banner from '../banner/Banner'
 import Categories from '../category/Categories'
 import { Grid } from '@mui/material';
 import Navbar from '../navbar/Navbar';
-import { userContext } from '../context/MyContext';
 import DisplayPosts from '../displayPosts/DisplayPosts';
+import image from "../../assets/blog_banner.jpg"
 
-const Home = () => {
-  const {userData} = useContext(userContext);
-  console.log(userData)
+const Home = () => {  
   return (
     <div>
       <Navbar/>
-        <Banner />
+        <Banner image={image} text={true} />
 
         <Grid container>
-            <Grid item xs={12} sm={2} lg={2}>
-            <Categories />
+            <Grid item xs={12} sm={2} lg={2} style={{backgroundColor:"#116466"}}>
+            <Categories page={"home"} />
             </Grid>
 
             <Grid container item xs={12} sm={10} lg={10} style={{backgroundColor:"#2C3531"}}>

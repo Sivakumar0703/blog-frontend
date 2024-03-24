@@ -1,9 +1,8 @@
 import { Box, Typography , styled } from '@mui/material'
 import React from 'react'
-import image from "../../assets/blog_banner.jpg"
 
 
-const Banner = () => {
+const Banner = ({image,text}) => {
     const Image = styled(Box)`
     background-image : url(${image});
     background-repeat: no-repeat;
@@ -30,8 +29,12 @@ const Banner = () => {
     `
   return (
     <Image>
-        <Title> Blog </Title>
-        <SubTitle> Write and post </SubTitle>
+        {
+          text ? <>
+          <Title> Blog </Title>
+          <SubTitle> Write and post </SubTitle>
+          </> : ""
+        }
     </Image>
   )
 }

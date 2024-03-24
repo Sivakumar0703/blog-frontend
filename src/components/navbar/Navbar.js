@@ -1,5 +1,4 @@
-import React from 'react'
-import {AppBar , Toolbar, Typography} from "@mui/material";
+import {AppBar , Toolbar} from "@mui/material";
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 
@@ -20,10 +19,10 @@ const Navbar = () => {
   return (
     <Component>
         <Nav>
-            <Link to="/home" > HOME </Link>
-            <Link to="/about" > ABOUT </Link>
-            <Link to="/contact" > CONTACT </Link>
-            <Link to="/" > LOGOUT </Link>
+            <Link to="/home" style={{fontWeight:"bold"}}> HOME </Link>
+            <Link to="/about" style={{fontWeight:"bold"}}> MY-SECTION </Link>
+            <Link to="/contact" style={{fontWeight:"bold"}}> CONTACT </Link>
+            <Link to="/" style={{fontWeight:"bold"}}> LOGOUT </Link>
         </Nav>
     </Component>
   )

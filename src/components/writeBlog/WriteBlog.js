@@ -1,13 +1,15 @@
 
-import React , {useContext, useEffect, useState} from 'react';
-import styled from '@emotion/styled';
-import { Box, Button, FormControl, Icon, InputBase, InputLabel, MenuItem, Select } from '@mui/material';
+import { useEffect, useState} from 'react';
+import { Button, FormControl, Icon, InputLabel, MenuItem, Select } from '@mui/material';
 import image from "../../assets/create-blog-default.jpeg";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import "./writeBlog.css";
 import Navbar from '../navbar/Navbar';
-import { userContext } from '../context/MyContext';
 import axios from 'axios';
+import QuillEditor from './Quill';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+
 
 const WriteBlog = () => {
 
@@ -26,30 +28,21 @@ const WriteBlog = () => {
     const [file , setFile] = useState();
     const [selectedCategory , setSelectedCategory] = useState("All Category");
     const [desc , setDesc] = useState("");
-    
+    const navigate = useNavigate();
     const categories = ["All Category","Fashion","Food","Movies","Music","Tech"];
     const [loading , setLoading] = useState(false);
 
-
-  console.log("userdata",userData)
    
-
-    
-
     function handleChange(e){
-        setPost((prevPost) => ({...prevPost , [e.target.name]:e.target.value}))
-
+     setPost((prevPost) => ({...prevPost , [e.target.name]:e.target.value}))
     }
 
     function getSelectedCategory(e){
-        // setSelectedCategory(e.target.value);
-        post.category = e.target.value;
+      setSelectedCategory(e.target.value); // for displaying
+      post.category = e.target.value;
     }
 
-    function setDescription(e){
-      setDesc(e.target.value);
-      // post.desc = e.target.value;
-    }
+
 
     // saving the blog image to DB 
     useEffect(()=>{
@@ -68,31 +61,29 @@ const WriteBlog = () => {
         }
         getImage(); // to get url 
         
-    },[file])
-
+    },[file]);
 
 
 async function publishTheBlog(){
+  post.description = desc;
   try {
     if(post.title && post.description && post.image && post.email && post.author){
       const post_blog = await axios.post(`http://localhost:5000/api/post/create-post` , post );
-      console.log(post_blog.data);
       setPost(postBlog);
+      setDesc("");
+      setSelectedCategory("All Category");
+      navigate('/home');
+      toast.success(post_blog.data.message);
     } else {
-      console.log(post.title)
-      console.log(post.description)
-      console.log(post.image)
-      console.log(post.email)
-      console.log(post.author)
       alert("Please fill all the field")
     }
   } catch (error) {
-    console.log("post error",error)
+    toast.error(error.response.data.message)
   }
 }
     
     
-  return (
+  return ( 
     <div className='blog-container'>
         <Navbar/>
 
@@ -103,7 +94,7 @@ async function publishTheBlog(){
 
         <form className='create-blog-form'>
             <label htmlFor="select-file">
-                <Icon sx={{color:"#000"}}> <AddCircleIcon /> </Icon>
+                <Icon sx={{color:"#000",cursor:"pointer"}}> <AddCircleIcon /> </Icon>
             </label>
             <input id="select-file" type="file" onChange={(e) => setFile(e.target.files[0])} style={{display:"none"}} />
 
@@ -111,6 +102,7 @@ async function publishTheBlog(){
             className='title-input'
             placeholder='Blog Title' 
             name='title'
+            value={post.title}
             onChange={(e) => handleChange(e)}
             />
 
@@ -133,15 +125,9 @@ async function publishTheBlog(){
 
             <Button variant="contained" onClick={publishTheBlog} className='publish-btn'> POST </Button>
         </form>
-
-        <textarea 
-        className='description'
-        rows={5} 
-        placeholder='Write Your Content Here'
-        name='description'
-         value={desc}
-         onChange={setDescription}
-         /> 
+        <div>
+        <QuillEditor setDesc={setDesc}  />
+        </div>
 
     </div>
   )

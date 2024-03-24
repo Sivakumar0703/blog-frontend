@@ -4,13 +4,10 @@ import App from './App';
 import { BrowserRouter } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import MyContext from './components/context/MyContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
     <BrowserRouter>
-    <MyContext>
     <App />
     <ToastContainer
         position="top-right"
@@ -25,9 +22,7 @@ root.render(
         theme="light"
         transition={Bounce}
       />
-      </MyContext>
     </BrowserRouter>
-  </React.StrictMode>
 );
 
 

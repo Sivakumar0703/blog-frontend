@@ -1,21 +1,19 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { TextField, Box, Button, Typography, styled } from "@mui/material";
 import "./account.css";
 import * as yup from 'yup'; 
 import { useFormik } from 'formik';
 import axios from "axios";
 import {toast} from "react-toastify"
-import { userContext } from "../context/MyContext";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/logoo.png";
 
 
 
 const SignUp = () => {
 
-    const imageURL = "https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png";
     const [account, toggleAccount] = useState("login");
     const [loginData , setLoginData] = useState({email:"",password:""});
-    const {setUserData} = useContext(userContext);
     const navigate = useNavigate();
     const url = "http://localhost:5000/api";
     
@@ -38,6 +36,7 @@ const SignUp = () => {
     onSubmit: (newuser,{resetForm}) => {
         console.log(newuser)
         register(newuser)
+        resetForm()
     }
   })
 
@@ -50,6 +49,7 @@ const SignUp = () => {
         const result = await axios.post(`${url}/user/register_user`, user);
     console.log(result.data.message);
     toast(result.data.message);
+    toggleSignup();
     } catch (error) {
         toast.error("Server Busy");
     }
@@ -61,13 +61,8 @@ async function login(loginData){
         return toast.warn("Please Ensure Your Credentials")
     }
     const result = await axios.post(`${url}/user/login` , loginData);
-    console.log(result)
     toast(result.data.message);
-    // sessionStorage.setItem("accessToken",`Bearer ${result.data.token.accessToken}`);
-    // sessionStorage.setItem("refreshToken",`Bearer ${result.data.token.refreshToken}`);
-     sessionStorage.setItem("user",JSON.stringify(result.data.user));
-    // localStorage.setItem("user",JSON.stringify(result.data.token))
-    setUserData({name:result.data.user.name , email:result.data.user.email});
+    sessionStorage.setItem("user",JSON.stringify(result.data.user));
     navigate('/home');
    } catch (error) {
     toast.error(error.response?.data?.message ? error.response.data.message : "Server Busy");
@@ -102,9 +97,10 @@ async function login(loginData){
   `;
 
   return (
-    <div style={{ width: "400px", margin: "auto", boxShadow:"5px 2px 5px 2px rgb(0 0 0/ 0.6)" }}>
+    <div id="account-page">
+      <div style={{ width: "400px", margin: "auto", boxShadow:"5px 2px 5px 2px rgb(0 0 0/ 0.6)" }}>
       <Box style={{ backgroundColor: "#2C3531" }}>
-        <Image src={imageURL} alt="blog" />
+        <Image src={logo} alt="blog" />
         {account === "login" ? (
           <div className="wrapper">
             <TextField 
@@ -187,6 +183,7 @@ async function login(loginData){
           </div>
         )}
       </Box>
+    </div>
     </div>
   );
 };
